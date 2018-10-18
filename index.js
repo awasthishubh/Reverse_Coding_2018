@@ -17,6 +17,9 @@ app.use((req,res, next)=>{
 })
 
 app.use("/question", require("./routes/question.js"));
+app.use("/auction", require("./routes/auction.js"));
+app.use("/team", require("./routes/team.js"));
+app.use("/admin", require("./routes/admin.js"));
 
 // app.use("/static", express.static(path.join(__dirname, "./uploads")));
 

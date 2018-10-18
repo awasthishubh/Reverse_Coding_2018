@@ -7,7 +7,7 @@ const model = new schema({
     name:{
         type:String
     },
-    credit:{
+    credits:{
         type:Number
     }
 });

@@ -27,3 +27,4 @@ router.get('/buy/:id', function(req,res){
         })
     })
 })
+module.exports=router

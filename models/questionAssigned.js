@@ -4,7 +4,8 @@ const schema = mongoose.Schema;
 
 const model = new schema({
     team:{
-        type:String
+        type:String,
+        required:true
     },
     number:{
         type:Number,
@@ -14,8 +15,8 @@ const model = new schema({
         default: 0
     },
     isAllowed:{
-        type:Number,
-        default:0
+        type:Boolean,
+        default:true
     }
 });
 

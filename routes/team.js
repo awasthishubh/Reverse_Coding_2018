@@ -3,15 +3,9 @@ const Team = require("./../models/team.js");
 const Ques = require("./../models/question.js");
 const qAssigned = require("./../models/questionAssigned.js");
 
-router.get('/', function(req,res){
-    var team='zxcv';
-    qAssigned.find({team:team, isAllowed:true},function(err, doc){
-        res.status(200).json(doc)
+router.get('/leaderboard', function(req,res){
+    Team.find({},'name credits',{sort:{credits:-1}},function(err,doc){
+        res.json(doc)
     })
 })
-
-
-
 module.exports=router
-
-
