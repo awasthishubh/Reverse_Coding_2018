@@ -9,22 +9,7 @@ const model = new schema({
     },
     credit:{
         type:Number
-    },
-    questions:[
-        {
-            number:{
-                type:Number
-            },
-            casesPassed:{
-                type:Number,
-                default:0
-            },
-            isAllowed:{ //no submission after phase ends
-                type:Boolean,
-                default: true  
-            }
-        }
-    ]
+    }
 });
 
 module.exports = mongoose.model("teams", model);
