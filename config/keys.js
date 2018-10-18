@@ -1,3 +1,3 @@
-module.exports={
-    
+module.exports.keys={
+    db: process.env.db
 }

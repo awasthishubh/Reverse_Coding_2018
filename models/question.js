@@ -5,7 +5,7 @@ const schema = mongoose.Schema;
 const model = new schema({
 
     number:{
-        type:"number",
+        type:Number,
         default: 1
     },
     sold:{
@@ -20,7 +20,7 @@ const model = new schema({
     },
     output:{
         type:"array",
-        required: [true, "Output string is required"]
+        // required: [true, "Output string is required"]
     },
     testcases:{
         type:"array"
