@@ -5,8 +5,10 @@ const qAssigned = require("./../models/questionAssigned.js");
 const fs=require('fs')
 const path=require('path')
 
-router.get('/', function(req,res){
-    var team='zxcv';
+userpolicy=require('../policies/user')
+
+router.get('/', userpolicy,function(req,res){
+    var team=req.body.team;
     qAssigned.find({team:team, isAllowed:true},function(err, doc){
         res.status(200).json(doc)
     })

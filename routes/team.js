@@ -19,8 +19,8 @@ router.get('/leaderboard', function(req,res){
 
 router.post('/submit', upload.single('file') ,function(req,res){
     const boxExec = require("box-exec")();
-    team='Qwerty'
-    number=1
+    team=req.body.team;
+    number=req.body.number;
     orgName=req.file.originalname.split('.')
     filename=`${team}_${number}_${(new Date).getTime()}.${orgName[orgName.length-1]}`
     fileLoc=path.join(__dirname,'../files/attempts',filename)

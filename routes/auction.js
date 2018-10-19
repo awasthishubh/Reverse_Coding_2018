@@ -10,8 +10,8 @@ router.get('/', function(req,res){
 })
 
 router.get('/buy/:id', function(req,res){
-    team='Qwerty'
-    number=req.params.id
+    team=req.body.team;
+    number=req.params.id;
     Ques.findOne({sold:false, number},function(err,qDoc){
         if(err){
             console.log(err);
