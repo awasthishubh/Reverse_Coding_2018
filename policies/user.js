@@ -8,7 +8,6 @@ module.exports = (req, res, next)=>{
     if(!authHeader || split[0] !== "Bearer"){
         return res.status(406).json({err:"Invalid authorization header"});
     }
-    console.log(process.env.SECRET,split[1])
     jwt.verify(split[1], process.env.SECRET, function(err, decoded) {
         if(err){
             return res.status(401).json({err:"Invalid token"});
@@ -18,6 +17,7 @@ module.exports = (req, res, next)=>{
             if(!doc){
                 return res.status(401).json({err:"Not allowed for round 2"});
             }
+            console.log(decoded.team)
             req.body.team = decoded.team;
             next();
         })

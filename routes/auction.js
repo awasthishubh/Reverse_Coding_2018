@@ -3,13 +3,15 @@ const Team = require("./../models/team.js");
 const Ques = require("./../models/question.js");
 const qAssigned = require("./../models/questionAssigned.js");
 
-router.get('/', function(req,res){
+userpolicy=require('../policies/user')
+
+router.get('/', userpolicy, function(req,res){
     Ques.find({sold:false},'number sold attemptCount', function(err,qDoc){
         res.status(200).json(qDoc)
     })
 })
 
-router.get('/buy/:id', function(req,res){
+router.get('/buy/:id', userpolicy, function(req,res){
     team=req.body.team;
     number=req.params.id;
     Ques.findOne({sold:false, number},function(err,qDoc){
