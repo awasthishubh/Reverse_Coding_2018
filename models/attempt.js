@@ -12,12 +12,13 @@ const model = new schema({
         type:Number
     },
     result:{
-        type:Array
+        type:Array,
+        default:[]
     },
-    points:{
-        type:Number,
-    }
+    // points:{
+    //     type:Number,
+    // }
 
 });
 
-module.exports = mongoose.model("question", model);
+module.exports = mongoose.model("attempt", model);

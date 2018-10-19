@@ -7,10 +7,8 @@ const model = new schema({
         type:String
     },
     points:{
-        type:Number
-    },
-    time:{
-        type:Number
+        type:Number,
+        default:250
     }
 });
 

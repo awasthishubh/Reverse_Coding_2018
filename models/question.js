@@ -26,7 +26,11 @@ const model = new schema({
     },
     marking:{
         type:Number,
-        default: 150
+        default: 50
+    },
+    points:{
+        type:Number,
+        default:0
     }
 
 });

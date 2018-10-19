@@ -3,7 +3,7 @@ const Team = require("./../models/team.js");
 var multer  = require('multer');
 const fs=require('fs')
 const path=require('path')
-
+const Attempt=require("./../models/attempt.js");
 
 const Ques = require("./../models/question.js");
 const qAssigned = require("./../models/questionAssigned.js");
@@ -40,12 +40,12 @@ router.post('/submit', upload.single('file'), userpolicy ,function(req,res){
         fs.renameSync(path.join(__dirname,'../files/uploads',req.file.filename),fileLoc)
     } catch(e){console.log(e);return res.status(500).json({"Message":"Unable to read loacation"})}
     console.log({team,number})
-    qAssigned.findOne({team,number},function(err,doc){
+    Ques.findOne({team,number},function(err,doc){
         if(!doc){
             return res.status(404).json({Message:"Question Not assigned"})
         }
-        Ques.findOne({number},function(err,doc){
-            if(!doc){
+        Attempt.findOne({question:number,team},function(err,aDoc){
+            if(!aDoc){
                 return res.status(400).json({Message:"Question not found"})
             }
             result=[]
@@ -66,10 +66,25 @@ router.post('/submit', upload.single('file'), userpolicy ,function(req,res){
                 console.log(boxExec.output);
                 doc.testcases.forEach(function(testcase,i){
                     console.log(i,boxExec.output[testcase].output,doc.output[i])
-                    result.push(boxExec.output[testcase].output.trim()==doc.output[i].trim())
+                    if(boxExec.output[testcase].output.trim()==doc.output[i].trim()){
+                        result.push(true);points++
+                    } else{result.push(false)}
                 })
-                console.log(12345)
-                res.json({err:false,result,points});
+                points=points*doc.marking;
+                aDoc.result.push({
+                    time:(new Date).getTime(),
+                    result:result,
+                    points
+                })
+                if(points>doc.points){
+                    Ques.update({number},{points},function(err,e){
+                        if(err){
+
+                        }
+                        return res.json({err,result,points});
+                    })
+                }
+                else return res.json({err,result,points});
             });
             boxExec.on("fileError",(err)=>{
                 console.log("fileError")
@@ -79,10 +94,9 @@ router.post('/submit', upload.single('file'), userpolicy ,function(req,res){
                 console.log("langKeyError")
                 console.log(err);
             });
-            boxExec.setData(16,fileLoc,...doc.testcases);
+            boxExec.setData(lang,fileLoc,...doc.testcases);
         })
     })
-    // res.json([req.file,req.body])
 })
 
 module.exports=router
