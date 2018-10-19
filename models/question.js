@@ -25,10 +25,6 @@ const model = new schema({
     testcases:{
         type:"array"
     },
-    attemptCount:{
-        type:"number",
-        default: 0
-    },
     marking:{
         type:"number",
         default: 5

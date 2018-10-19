@@ -17,7 +17,11 @@ const model = new schema({
     isAllowed:{
         type:Boolean,
         default:true
-    }
+    },
+    attemptCount:{
+        type:"number",
+        default: 0
+    },
 });
 
 module.exports = mongoose.model("questionAssigned", model);
