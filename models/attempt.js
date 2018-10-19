@@ -15,9 +15,12 @@ const model = new schema({
         type:Array,
         default:[]
     },
-    // points:{
-    //     type:Number,
-    // }
+    points:{
+        type:Number,
+    },
+    time:{
+        type:Number
+    }
 
 });
 

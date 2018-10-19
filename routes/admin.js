@@ -12,6 +12,16 @@ router.get('/endphase', function(req,res){
     })
 })
 
+router.get('/question',function(req,res){
+    Ques.find({},function(err,doc){
+        if(err){
+            return
+        }
+        return res.json(doc)
+        
+    })
+})
+
 router.post('/sale/:id', function(req,res){
     team=req.body.team;
     number=req.params.id;
@@ -71,6 +81,8 @@ router.post('/addques',function(req,res){
         return res.status(200).json({msg:"Question added successfully"});
     });
 })
+
+
 
 
 
