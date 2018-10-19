@@ -16,7 +16,9 @@ router.post('/',function(req,res){
     var number=req.body.number;
     var marking=req.body.marking || 5;
     var credit=req.body.credit;
-    if(!number || !credit) return res.status(400).json({'Message':'Incomplete request'})
+    var upsert=true
+    if(!number) return res.status(400).json({'Message':'Incomplete request'})
+    if(!credit) upsert=false
     var testcases=[]
     var output=[]
     try{
@@ -37,11 +39,15 @@ router.post('/',function(req,res){
         win : `/static/${number}/bin/q${number}_win`,
         linux : `/static/${number}/bin/q${number}_lin`
     }
-    Ques.update( { number }, {number,credit,bin,output,testcases,marking}, { upsert : true,setDefaultsOnInsert: true }, function(err,doc){
+    Ques.update( { number }, credit?{number,credit,bin,output,testcases,marking}:{number,bin,output,testcases,marking}, { upsert,setDefaultsOnInsert: true }, function(err,doc){
         if(err){
             console.log(err);
             return res.status(500).json({msg:'DB Error'})
         }
+        if(doc.n==0 && upsert==false){
+            return res.status(404).json({msg:"Question not found, Add credits to create"});
+        }
+        console.log(doc)
         return res.status(200).json({msg:"Question added successfully"});
     });
 })
