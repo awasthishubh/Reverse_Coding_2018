@@ -14,9 +14,9 @@ router.get('/', function(req,res){
 
 router.post('/',function(req,res){
     var number=req.body.number;
-    var marking=req.body.marking || 25;
+    var marking=req.body.marking || 5;
     var credit=req.body.credit;
-    if(!number || !credit) return res.json(400).json({'Message':'Incomplete request'})
+    if(!number || !credit) return res.status(400).json({'Message':'Incomplete request'})
     var testcases=[]
     var output=[]
     try{
