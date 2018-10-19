@@ -11,7 +11,7 @@ router.get('/', userpolicy, function(req,res){
     })
 })
 
-router.get('/buy/:id', userpolicy, function(req,res){
+router.get('/sale/:id', function(req,res){
     team=req.body.team;
     number=req.params.id;
     Ques.findOne({sold:false, number},function(err,qDoc){
@@ -22,19 +22,10 @@ router.get('/buy/:id', userpolicy, function(req,res){
         if(!qDoc){
             return res.status(404).json({'message':'Question not found or sold'})
         }
-        qAssigned.find({team,isAllowed:true},function(err,doc){
-            if(err){
-                console.log(err);
-                return res.status(500).json({'Message':'SOmething is wrong'})
-            }
-            if(doc.length==2){
-                return res.status(405).json({'Message':'Not Allowed'})
-            }
-            qDoc.sold=true;
-            qDoc.save()
-            qAssigned.create({team,number})
-            return res.status(200).json({'Message':'Assigned'})
-        })
+        qDoc.team=team;
+        qDoc.save()
+        return res.status(200).json({'Message':'Assigned'})
     })
 })
+
 module.exports=router

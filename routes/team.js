@@ -20,10 +20,19 @@ router.get('/leaderboard', userpolicy, function(req,res){
 })
 
 router.post('/submit', upload.single('file'), userpolicy ,function(req,res){
+    allowedLang={
+        "python2": 7,
+        "python3": 9,
+        "c": 11,
+        "cpp":16
+    }
+    lang=allowedLang[req.body.lang]
     const boxExec = require("box-exec")();
     team=req.body.team;
     number=req.body.number;
-    if(!number) return res.status(400).json({Message:"Enter Wuestion number"})
+    
+
+    if(!number || !lang) return res.status(400).json({Message:"Incomplete Request."})
     orgName=req.file.originalname.split('.')
     filename=`${team}_${number}_${(new Date).getTime()}.${orgName[orgName.length-1]}`
     fileLoc=path.join(__dirname,'../files/attempts',filename)

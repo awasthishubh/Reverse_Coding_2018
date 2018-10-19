@@ -3,11 +3,13 @@ const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 
 const model = new schema({
-
     name:{
         type:String
     },
-    credits:{
+    points:{
+        type:Number
+    },
+    time:{
         type:Number
     }
 });
