@@ -7,8 +7,10 @@ const path=require('path')
 const fs=require('fs')
 const Attempt=require("./../models/attempt.js");
 
+const adminpolicy=require("./../policies/admin");
+
 module.exports=function(io){
-    router.get('/submission', function(req,res){
+    router.get('/submission', adminpolicy, function(req,res){
         a={'true':true,'false':false}
         allow=a[req.query.allow]
         if(allow===undefined) return res.json('Invalid respose')
@@ -20,7 +22,7 @@ module.exports=function(io){
         })
     })
 
-    router.get('/question',function(req,res){
+    router.get('/question', adminpolicy,function(req,res){
         Ques.find({},function(err,doc){
             if(err){
                 return
@@ -30,7 +32,7 @@ module.exports=function(io){
         })
     })
 
-    router.post('/sale/:id', function(req,res){
+    router.post('/sale/:id', adminpolicy,function(req,res){
         points=req.body.points;
         team=req.body.team;
         number=req.params.id;
@@ -65,7 +67,7 @@ module.exports=function(io){
 
     })
 
-    router.post('/addques',function(req,res){
+    router.post('/addques',adminpolicy,function(req,res){
         var number=req.body.number;
         var marking=req.body.marking || 50;
         if(!number) return res.status(400).json({'Message':'Incomplete request'})
