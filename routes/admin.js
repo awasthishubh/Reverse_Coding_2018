@@ -87,9 +87,9 @@ module.exports=function(io){
         }
         
         let bin={
-            mac : `/static/bin/q${number}_mac`,
-            win : `/static/bin/q${number}_win.exe`,
-            linux : `/static/bin/q${number}_lin`
+            mac : `/q${number}_mac`,
+            win : `/q${number}_win.exe`,
+            linux : `/q${number}_lin`
         }
         Ques.update( { number }, {number,bin,output,testcases,marking}, { upsert:true,setDefaultsOnInsert: true }, function(err,doc){
             if(err){
@@ -102,8 +102,6 @@ module.exports=function(io){
     })
     return router
 }
-
-
 
 
 

@@ -14,7 +14,7 @@ var upload = multer({ dest: uploadLoc })
 userpolicy=require('../policies/user')
 
 router.get('/leaderboard', userpolicy, function(req,res){
-    Team.find({},'name points',{sort:{credits:-1}},function(err,doc){
+    Team.find({},'name points',{sort:{points:-1}},function(err,doc){
         res.json(doc)
     })
 })
