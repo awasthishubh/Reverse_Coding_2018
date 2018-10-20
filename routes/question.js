@@ -75,11 +75,18 @@ router.post('/', upload.single('file'), userpolicy ,function(req,res){
             points=points*doc.marking;
             Attempt.create({team,question:number,result,points,time:(new Date).getTime()})
             if(points>doc.points){
-                Ques.update({number},{points},function(err,e){
+                inc=points-doc.points
+                Team.updateOne({name:team},{$inc : {points : inc}}, function(err){
                     if(err){
-
+                        return
                     }
-                    return res.json({err,result,points});
+                    Ques.updateOne({number},{points},function(err,e){
+                        if(err){
+    
+                        }
+                        Ques.update({})
+                        return res.json({err,result,points});
+                    })
                 })
             }
             else return res.json({err,result,points});

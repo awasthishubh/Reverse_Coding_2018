@@ -15,14 +15,6 @@ userpolicy=require('../policies/user')
 
 router.get('/leaderboard', userpolicy, function(req,res){
     Team.find({},'name points',{sort:{credits:-1}},function(err,doc){
-        // doc.forEach(function(d){
-        //     Ques.find({team},'points',function(err,arr){
-        //         if(err){
-        //             console.log(err);
-        //             res.s
-        //         }
-        //     })
-        // })
         res.json(doc)
     })
 })
@@ -36,9 +28,17 @@ router.get('/',userpolicy,function(req,res){
 
             }
             console.log(qDoc)
-            // doc.quesAssigned=qDoc.length
             res.json({Team:doc,quesAssigned:qDoc.length})
         })
+    })
+})
+
+router.get('/attempts', userpolicy, function(req,res){
+    Attempt.find({team:req.body.team},'result question points 1539990093190',function(err,docs){
+        if(err){
+            return
+        }
+        res.send(docs)
     })
 })
 
