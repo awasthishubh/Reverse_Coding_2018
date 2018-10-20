@@ -2,10 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 // const multipart = require("connect-multiparty");
+app=express()
+var http = require('http');
+var socketIO = require('socket.io')
+var server=http.createServer(app)
+var io=socketIO(server)
 
 require('dotenv').config();
 
-app=express()
 // app.use(multipart({uploadDir: path.join(__dirname, "./uploads")}));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -16,10 +20,10 @@ app.use((req,res, next)=>{
     next()
 })
 
-app.use("/question", require("./routes/question.js"));
+app.use("/question", require("./routes/question.js")(io));
 app.use("/auction", require("./routes/auction.js"));
 app.use("/team", require("./routes/team.js"));
-app.use("/admin", require("./routes/admin.js"));
+app.use("/admin", require("./routes/admin.js")(io));
 
 app.use(express.static('./files/bin'))
 // app.use("/static", express.static(path.join(__dirname, "./uploads")));
@@ -32,6 +36,6 @@ mongoose.connect(process.env.db, {useNewUrlParser: true}, (err, db)=>{
     console.log("Connected to MongoDB");
 });
 
-app.listen(process.env.PORT || 3000, function(){
+server.listen(process.env.PORT || 3000, function(){
     console.log(`Server Started on PORT:${process.env.PORT || 3000}`)
 })
