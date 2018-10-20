@@ -1,14 +1,20 @@
 const router =  require("express").Router();
 const Team = require("./../models/team.js");
 const Ques = require("./../models/question.js");
+const Admin=require("./../models/admin.js");
 const qAssigned = require("./../models/questionAssigned.js");
 const path=require('path')
 const fs=require('fs')
 const Attempt=require("./../models/attempt.js");
 
-router.get('/endphase', function(req,res){
-    qAssigned.update({isAllowed:true},{isAllowed:false},{multi: true},function(err,doc){
-        return res.json({Message:'Phase Ended'})
+router.get('/submission', function(req,res){
+    a={'true':true,'false':false}
+    allow=a[req.query.allow]
+    if(allow===undefined) return res.json('Invalid respose')
+    Admin.updateOne({},{allow:allow},{upsert:true},function(err,doc){
+        console.log(err)
+        console.log(doc)
+        res.json({Message:allow?'Started':'Stopped'})
     })
 })
 
@@ -23,8 +29,10 @@ router.get('/question',function(req,res){
 })
 
 router.post('/sale/:id', function(req,res){
+    points=req.body.points;
     team=req.body.team;
     number=req.params.id;
+    if(!points||!team) return res.status(400).json({Message:'Invalid req   '})
     Team.findOne({name:team},function(err,doc){
         if(err){
 
@@ -39,6 +47,8 @@ router.post('/sale/:id', function(req,res){
             if(!qDoc){
                 return res.status(404).json({'message':'Question not found or sold'})
             }
+            doc.points=doc.points-points
+            doc.save()
             qDoc.team=team;
             qDoc.sold=true
             qDoc.save()
@@ -46,6 +56,10 @@ router.post('/sale/:id', function(req,res){
         })
     })
     
+})
+
+router.post('/givepoints',function(req,res){
+
 })
 
 router.post('/addques',function(req,res){

@@ -2,6 +2,7 @@ const router =  require("express").Router();
 const Team = require("./../models/team.js");
 const Ques = require("./../models/question.js");
 const qAssigned = require("./../models/questionAssigned.js");
+const Admin=require("./../models/admin.js");
 
 userpolicy=require('../policies/user')
 
